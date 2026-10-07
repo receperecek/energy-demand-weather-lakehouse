@@ -1,0 +1,17 @@
+name: energy_lakehouse
+version: '1.0.0'
+config-version: 2
+profile: energy_lakehouse
+model-paths: [models]
+seed-paths: [seeds]
+test-paths: [tests]
+models:
+  energy_lakehouse:
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table
+      +file_format: delta
+vars:
+  source_catalog: workspace
+  source_schema: energy_platform

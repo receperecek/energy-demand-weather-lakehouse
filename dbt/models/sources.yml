@@ -1,0 +1,12 @@
+version: 2
+sources:
+  - name: silver
+    database: "{{ var('source_catalog') }}"
+    schema: "{{ var('source_schema') }}"
+    tables:
+      - name: silver_energy
+        description: Latest source observation per source, region, UTC hour and metric; invalid measurements are retained and flagged.
+      - name: silver_weather
+        description: Latest ERA5 observation per region, proxy location and UTC hour.
+      - name: pipeline_runs
+        description: Successfully normalized acquisition windows; end_date is exclusive.

@@ -1,0 +1,1349 @@
+{
+  "datasets": [
+    {
+      "name": "monthly_demand",
+      "displayName": "Monthly demand",
+      "query": "SELECT region_code,region_name,date_trunc('month',local_date)::date AS month,\n        avg(complete_day_demand_mwh)/1000 AS mean_day_demand_gwh,count(*) AS complete_days\n        FROM v_gold_daily WHERE demand_day_complete AND local_date>='2024-01-01' AND local_date<'2026-01-01'\n        GROUP BY 1,2,3"
+    },
+    {
+      "name": "hour_profile",
+      "displayName": "Local-hour demand pattern",
+      "query": "SELECT region_code,region_name,hour_of_day,\n        CASE WHEN day_of_week IN (1,7) THEN 'Weekend' ELSE 'Weekday' END AS day_type,\n        concat(region_name,' / ',CASE WHEN day_of_week IN (1,7) THEN 'Weekend' ELSE 'Weekday' END) AS profile_series,\n        avg(demand_mwh)/1000 AS mean_hour_demand_gwh,count(demand_mwh) AS valid_hours\n        FROM v_gold_hourly WHERE local_date>='2024-01-01' AND local_date<'2026-01-01'\n        GROUP BY 1,2,3,4,5"
+    },
+    {
+      "name": "daily",
+      "displayName": "Demand and weather context",
+      "query": "SELECT region_code,region_name,local_date,\n        complete_day_demand_mwh/1000 AS demand_gwh,\n        CASE WHEN complete_weather_hours=calendar_hours THEN mean_proxy_temperature_c END AS temperature_c,\n        observed_wind_solar_share*100 AS wind_solar_pct,\n        100.0*eligible_generation_hours/calendar_hours AS share_coverage_pct,\n        high_demand_candidate_hours,demand_day_complete\n        FROM v_gold_daily WHERE local_date>='2024-01-01' AND local_date<'2026-01-01'"
+    },
+    {
+      "name": "monthly_share",
+      "displayName": "Energy-weighted generation share",
+      "query": "SELECT region_code,region_name,date_trunc('month',local_date)::date AS month,\n        100.0*sum(eligible_wind_solar_mwh)/nullif(sum(eligible_net_generation_mwh),0) AS wind_solar_pct,\n        100.0*sum(eligible_generation_hours)/sum(scoped_hours) AS eligible_hours_pct\n        FROM v_gold_daily WHERE local_date>='2024-01-01' AND local_date<'2026-01-01' GROUP BY 1,2,3"
+    },
+    {
+      "name": "fuel_mix",
+      "displayName": "Reported generation by fuel",
+      "query": "SELECT region_code,region_name,fuel_code,\n        sum(observed_generation_mwh)/1000 AS generation_gwh,sum(reported_hours) AS reported_hours,\n        sum(negative_generation_hours) AS negative_hours\n        FROM v_gold_fuel_daily WHERE local_date>='2024-01-01' AND local_date<'2026-01-01' GROUP BY 1,2,3"
+    },
+    {
+      "name": "quality",
+      "displayName": "Daily source coverage",
+      "query": "SELECT region_code,region_name,utc_date,expected_hours,\n        100.0*observed_demand_hours/expected_hours AS demand_coverage_pct,\n        100.0*complete_weather_hours/expected_hours AS weather_coverage_pct,\n        100.0*generation_share_eligible_hours/expected_hours AS share_eligible_pct,\n        max_generation_gap_mwh,invalid_energy_records,negative_generation_records\n        FROM v_gold_quality WHERE utc_date>='2024-01-01' AND utc_date<'2026-01-01'"
+    },
+    {
+      "name": "review",
+      "displayName": "Investigation queue",
+      "query": "SELECT region_code,region_name,local_date,review_priority,\n        peak_hour_demand_mwh/1000 AS peak_hour_gwh,high_demand_candidate_hours,\n        max_demand_deviation_score,demand_day_complete,complete_weather_hours,calendar_hours\n        FROM v_gold_priority WHERE local_date>='2024-01-01' AND local_date<'2026-01-01'\n        AND review_priority<>'ROUTINE' ORDER BY local_date DESC"
+    }
+  ],
+  "pages": [
+    {
+      "name": "demand",
+      "displayName": "Demand patterns",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "demand_title",
+            "textbox_spec": "# Electricity demand patterns\nCompare seasonal and local-hour behavior across ERCOT, CAISO and NYISO."
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "demand_region",
+            "queries": [
+              {
+                "name": "region_monthly_demand",
+                "query": {
+                  "datasetName": "monthly_demand",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "region_hour_profile",
+                "query": {
+                  "datasetName": "hour_profile",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "region_daily",
+                "query": {
+                  "datasetName": "daily",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_monthly_demand"
+                  },
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_hour_profile"
+                  },
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_daily"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Balancing authority"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "monthly_demand_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly_demand",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "mean_day_demand_gwh",
+                      "expression": "`mean_day_demand_gwh`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Month"
+                },
+                "y": {
+                  "fieldName": "mean_day_demand_gwh",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Mean Day Demand Gwh"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Mean complete-day demand (GWh)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "hour_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "hour_profile",
+                  "fields": [
+                    {
+                      "name": "hour_of_day",
+                      "expression": "`hour_of_day`"
+                    },
+                    {
+                      "name": "mean_hour_demand_gwh",
+                      "expression": "`mean_hour_demand_gwh`"
+                    },
+                    {
+                      "name": "profile_series",
+                      "expression": "`profile_series`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "hour_of_day",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Hour Of Day"
+                },
+                "y": {
+                  "fieldName": "mean_hour_demand_gwh",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Mean Hour Demand Gwh"
+                },
+                "color": {
+                  "fieldName": "profile_series",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Profile Series"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Local-hour demand profile (GWh)"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 4,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "weather_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily",
+                  "fields": [
+                    {
+                      "name": "temperature_c",
+                      "expression": "`temperature_c`"
+                    },
+                    {
+                      "name": "demand_gwh",
+                      "expression": "`demand_gwh`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "temperature_c",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Temperature C"
+                },
+                "y": {
+                  "fieldName": "demand_gwh",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Demand Gwh"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Temperature and demand \u2014 descriptive association"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "daily_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily",
+                  "fields": [
+                    {
+                      "name": "local_date",
+                      "expression": "`local_date`"
+                    },
+                    {
+                      "name": "demand_gwh",
+                      "expression": "`demand_gwh`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "local_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Local Date"
+                },
+                "y": {
+                  "fieldName": "demand_gwh",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Demand Gwh"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Complete daily demand (GWh)"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 10,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "demand_note",
+            "textbox_spec": "The temperature relationship is not causal. Compare within regions and seasons before interpreting it. Incomplete demand days remain null. The repeated local hour at autumn DST is preserved in UTC."
+          },
+          "position": {
+            "x": 0,
+            "y": 16,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "demand_source",
+            "textbox_spec": "Sources: [U.S. EIA](https://www.eia.gov/opendata/) and [NASA POWER](https://power.larc.nasa.gov/). Project calculations; no provider endorsement. Weather is an equal-weight three-city grid proxy. Historical scope: local calendar years 2024\u20132025. Consumer views select the latest tested release."
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 6,
+            "height": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "generation",
+      "displayName": "Generation composition",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "mix_title",
+            "textbox_spec": "# Generation composition\nReported net generation, source-category detail and eligible wind + solar shares."
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "mix_region",
+            "queries": [
+              {
+                "name": "region_monthly_share",
+                "query": {
+                  "datasetName": "monthly_share",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "region_fuel_mix",
+                "query": {
+                  "datasetName": "fuel_mix",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_monthly_share"
+                  },
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_fuel_mix"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Balancing authority"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "share_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly_share",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "wind_solar_pct",
+                      "expression": "`wind_solar_pct`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Month"
+                },
+                "y": {
+                  "fieldName": "wind_solar_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Wind Solar Pct"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Energy-weighted wind + solar share (%)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "share_coverage",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly_share",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "eligible_hours_pct",
+                      "expression": "`eligible_hours_pct`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Month"
+                },
+                "y": {
+                  "fieldName": "eligible_hours_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Eligible Hours Pct"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Hours eligible for the share metric (%)"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 4,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "fuels_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "fuel_mix",
+                  "fields": [
+                    {
+                      "name": "fuel_code",
+                      "expression": "`fuel_code`"
+                    },
+                    {
+                      "name": "generation_gwh",
+                      "expression": "`generation_gwh`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "fuel_code",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Fuel Code"
+                },
+                "y": {
+                  "fieldName": "generation_gwh",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Generation Gwh"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Reported net generation by fuel (GWh)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "fuel_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "fuel_mix",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    },
+                    {
+                      "name": "fuel_code",
+                      "expression": "`fuel_code`"
+                    },
+                    {
+                      "name": "generation_gwh",
+                      "expression": "`generation_gwh`"
+                    },
+                    {
+                      "name": "reported_hours",
+                      "expression": "`reported_hours`"
+                    },
+                    {
+                      "name": "negative_hours",
+                      "expression": "`negative_hours`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "region_name",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Region Name",
+                    "displayName": "region_name",
+                    "allowSearch": true,
+                    "alignContent": "left",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "fuel_code",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 1,
+                    "title": "Fuel Code",
+                    "displayName": "fuel_code",
+                    "allowSearch": true,
+                    "alignContent": "left",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "generation_gwh",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Generation Gwh",
+                    "displayName": "generation_gwh",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "reported_hours",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Reported Hours",
+                    "displayName": "reported_hours",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "negative_hours",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 4,
+                    "title": "Negative Hours",
+                    "displayName": "negative_hours",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  }
+                ]
+              },
+              "itemsPerPage": 25,
+              "frame": {
+                "showTitle": true,
+                "title": "Category coverage and signed generation"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 16,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "mix_note",
+            "textbox_spec": "SUN/WND are pure solar/wind; SNB/WNB are hybrid source categories. BAT/PS can be negative because net storage generation can include consumption. Missing source categories are not inferred as zero. Shares require fuel/total reconciliation within max(1 MWh, 1%)."
+          },
+          "position": {
+            "x": 0,
+            "y": 22,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "mix_source",
+            "textbox_spec": "Sources: [U.S. EIA](https://www.eia.gov/opendata/) and [NASA POWER](https://power.larc.nasa.gov/). Project calculations; no provider endorsement. Weather is an equal-weight three-city grid proxy. Historical scope: local calendar years 2024\u20132025. Consumer views select the latest tested release."
+          },
+          "position": {
+            "x": 0,
+            "y": 24,
+            "width": 6,
+            "height": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "quality",
+      "displayName": "Quality and review",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "quality_title",
+            "textbox_spec": "# Coverage and investigation\nAssess the evidence before acting on a pattern."
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "quality_region",
+            "queries": [
+              {
+                "name": "region_quality",
+                "query": {
+                  "datasetName": "quality",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "region_review",
+                "query": {
+                  "datasetName": "review",
+                  "fields": [
+                    {
+                      "name": "region_code",
+                      "expression": "`region_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_quality"
+                  },
+                  {
+                    "fieldName": "region_code",
+                    "displayName": "Region",
+                    "queryName": "region_review"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Balancing authority"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "demand_coverage",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "quality",
+                  "fields": [
+                    {
+                      "name": "utc_date",
+                      "expression": "`utc_date`"
+                    },
+                    {
+                      "name": "demand_coverage_pct",
+                      "expression": "`demand_coverage_pct`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "utc_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Utc Date"
+                },
+                "y": {
+                  "fieldName": "demand_coverage_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Demand Coverage Pct"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Valid demand coverage (%)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "weather_coverage",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "quality",
+                  "fields": [
+                    {
+                      "name": "utc_date",
+                      "expression": "`utc_date`"
+                    },
+                    {
+                      "name": "weather_coverage_pct",
+                      "expression": "`weather_coverage_pct`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "utc_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Utc Date"
+                },
+                "y": {
+                  "fieldName": "weather_coverage_pct",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Weather Coverage Pct"
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region Name"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Complete three-point weather coverage (%)"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 4,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "quality_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "quality",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    },
+                    {
+                      "name": "utc_date",
+                      "expression": "`utc_date`"
+                    },
+                    {
+                      "name": "demand_coverage_pct",
+                      "expression": "`demand_coverage_pct`"
+                    },
+                    {
+                      "name": "weather_coverage_pct",
+                      "expression": "`weather_coverage_pct`"
+                    },
+                    {
+                      "name": "share_eligible_pct",
+                      "expression": "`share_eligible_pct`"
+                    },
+                    {
+                      "name": "invalid_energy_records",
+                      "expression": "`invalid_energy_records`"
+                    },
+                    {
+                      "name": "max_generation_gap_mwh",
+                      "expression": "`max_generation_gap_mwh`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "region_name",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Region Name",
+                    "displayName": "region_name",
+                    "allowSearch": true,
+                    "alignContent": "left",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "utc_date",
+                    "type": "date",
+                    "displayAs": "date",
+                    "visible": true,
+                    "order": 1,
+                    "title": "Utc Date",
+                    "displayName": "utc_date",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "demand_coverage_pct",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Demand Coverage Pct",
+                    "displayName": "demand_coverage_pct",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "weather_coverage_pct",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Weather Coverage Pct",
+                    "displayName": "weather_coverage_pct",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "share_eligible_pct",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 4,
+                    "title": "Share Eligible Pct",
+                    "displayName": "share_eligible_pct",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "invalid_energy_records",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 5,
+                    "title": "Invalid Energy Records",
+                    "displayName": "invalid_energy_records",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "max_generation_gap_mwh",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 6,
+                    "title": "Max Generation Gap Mwh",
+                    "displayName": "max_generation_gap_mwh",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  }
+                ]
+              },
+              "itemsPerPage": 25,
+              "frame": {
+                "showTitle": true,
+                "title": "Source quality by UTC day"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "review_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "review",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    },
+                    {
+                      "name": "local_date",
+                      "expression": "`local_date`"
+                    },
+                    {
+                      "name": "review_priority",
+                      "expression": "`review_priority`"
+                    },
+                    {
+                      "name": "peak_hour_gwh",
+                      "expression": "`peak_hour_gwh`"
+                    },
+                    {
+                      "name": "high_demand_candidate_hours",
+                      "expression": "`high_demand_candidate_hours`"
+                    },
+                    {
+                      "name": "max_demand_deviation_score",
+                      "expression": "`max_demand_deviation_score`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "region_name",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Region Name",
+                    "displayName": "region_name",
+                    "allowSearch": true,
+                    "alignContent": "left",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "local_date",
+                    "type": "date",
+                    "displayAs": "date",
+                    "visible": true,
+                    "order": 1,
+                    "title": "Local Date",
+                    "displayName": "local_date",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "review_priority",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Review Priority",
+                    "displayName": "review_priority",
+                    "allowSearch": true,
+                    "alignContent": "left",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "peak_hour_gwh",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Peak Hour Gwh",
+                    "displayName": "peak_hour_gwh",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "high_demand_candidate_hours",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 4,
+                    "title": "High Demand Candidate Hours",
+                    "displayName": "high_demand_candidate_hours",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  },
+                  {
+                    "fieldName": "max_demand_deviation_score",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 5,
+                    "title": "Max Demand Deviation Score",
+                    "displayName": "max_demand_deviation_score",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false
+                  }
+                ]
+              },
+              "itemsPerPage": 25,
+              "frame": {
+                "showTitle": true,
+                "title": "Candidate investigation days"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 16,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "quality_note",
+            "textbox_spec": "A high-demand candidate exceeds a trailing same-weekday/same-local-hour reference by 3 sample standard deviations, with at least 4 preceding observations. It is an investigation heuristic, not a grid stress or blackout forecast."
+          },
+          "position": {
+            "x": 0,
+            "y": 22,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "quality_source",
+            "textbox_spec": "Sources: [U.S. EIA](https://www.eia.gov/opendata/) and [NASA POWER](https://power.larc.nasa.gov/). Project calculations; no provider endorsement. Weather is an equal-weight three-city grid proxy. Historical scope: local calendar years 2024\u20132025. Consumer views select the latest tested release."
+          },
+          "position": {
+            "x": 0,
+            "y": 24,
+            "width": 6,
+            "height": 2
+          }
+        }
+      ]
+    }
+  ]
+}

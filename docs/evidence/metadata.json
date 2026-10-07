@@ -1,0 +1,10 @@
+{
+  "exported_at_utc": "2026-10-07T02:33:04.920556+00:00",
+  "release_id": "61d504f12d514851bcdca3040ca32e44",
+  "scope": "Local calendar years 2024\u20132025; ERCO, CISO, NYIS",
+  "sources": [
+    "U.S. EIA",
+    "NASA POWER"
+  ],
+  "timestamp_convention": "UTC interval start; EIA hour-ending labels shifted minus one hour"
+}

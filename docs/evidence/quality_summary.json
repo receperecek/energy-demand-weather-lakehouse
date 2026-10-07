@@ -1,0 +1,46 @@
+{
+  "columns": [
+    "region_code",
+    "expected_hours",
+    "demand_hours",
+    "weather_hours",
+    "share_eligible_hours",
+    "invalid_energy_records",
+    "negative_generation_records",
+    "largest_fuel_gap_mwh"
+  ],
+  "rows": [
+    [
+      "CISO",
+      "17544",
+      "17544",
+      "17544",
+      "17500",
+      "0",
+      "20716",
+      "2271.0"
+    ],
+    [
+      "ERCO",
+      "17544",
+      "17544",
+      "17544",
+      "17241",
+      "0",
+      "9912",
+      "5634.0"
+    ],
+    [
+      "NYIS",
+      "17544",
+      "17539",
+      "17544",
+      "17506",
+      "53",
+      "0",
+      "3038.0"
+    ]
+  ],
+  "row_count": 3,
+  "query": "SELECT region_code,sum(expected_hours) AS expected_hours,\n        sum(observed_demand_hours) AS demand_hours,sum(complete_weather_hours) AS weather_hours,\n        sum(generation_share_eligible_hours) AS share_eligible_hours,\n        sum(invalid_energy_records) AS invalid_energy_records,\n        sum(negative_generation_records) AS negative_generation_records,\n        max(max_generation_gap_mwh) AS largest_fuel_gap_mwh\n        FROM v_gold_quality WHERE utc_date>='2024-01-01' AND utc_date<'2026-01-01'\n        GROUP BY 1 ORDER BY 1"
+}

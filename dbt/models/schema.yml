@@ -1,0 +1,22 @@
+version: 2
+seeds:
+  - name: dim_region
+    columns:
+      - name: region_code
+        data_tests: [unique, not_null]
+models:
+  - name: gold_hourly
+    description: One region and UTC hour with a three-point NASA POWER proxy; demand reference uses only preceding observations.
+    columns:
+      - name: region_code
+        data_tests: [not_null]
+      - name: hour_utc
+        data_tests: [not_null]
+  - name: gold_daily
+    description: Local-calendar aggregates with explicit 23/24/25-hour and boundary-day eligibility.
+  - name: gold_priority
+    description: Investigation priorities; not a grid reliability or blackout prediction.
+  - name: gold_quality
+    description: Source coverage and generation reconciliation by region and UTC day.
+  - name: gold_fuel_daily
+    description: Reported signed net generation by local day and source fuel category; absent observations are not inferred as zero.

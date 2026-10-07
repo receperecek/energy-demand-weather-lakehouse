@@ -1,0 +1,11 @@
+energy_lakehouse:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: "{{ env_var('ENERGY_CATALOG', 'workspace') }}"
+      schema: "{{ env_var('ENERGY_SCHEMA', 'energy_platform') }}"
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      auth_type: oauth
+      threads: 1

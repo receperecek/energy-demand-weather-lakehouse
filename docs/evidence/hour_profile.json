@@ -1,0 +1,1311 @@
+{
+  "columns": [
+    "region_code",
+    "region_name",
+    "hour_of_day",
+    "day_type",
+    "profile_series",
+    "mean_hour_demand_gwh",
+    "valid_hours"
+  ],
+  "rows": [
+    [
+      "CISO",
+      "CAISO",
+      "4",
+      "Weekend",
+      "CAISO / Weekend",
+      "21.305427884615384",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "14",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.22924519230769",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "4",
+      "Weekend",
+      "ERCOT / Weekend",
+      "45.27461057692308",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "0",
+      "Weekend",
+      "NYISO / Weekend",
+      "15.744697115384616",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "16",
+      "Weekend",
+      "NYISO / Weekend",
+      "17.943677884615383",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "20",
+      "Weekday",
+      "NYISO / Weekday",
+      "19.50333652007648",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "3",
+      "Weekend",
+      "CAISO / Weekend",
+      "21.790932692307692",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "11",
+      "Weekend",
+      "ERCOT / Weekend",
+      "54.668533653846154",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "14",
+      "Weekend",
+      "ERCOT / Weekend",
+      "58.83321153846154",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "22",
+      "Weekend",
+      "ERCOT / Weekend",
+      "54.04552403846154",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "23",
+      "Weekend",
+      "ERCOT / Weekend",
+      "51.4853125",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "7",
+      "Weekday",
+      "ERCOT / Weekday",
+      "51.0832982791587",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "15",
+      "Weekday",
+      "ERCOT / Weekday",
+      "61.53152198852773",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "2",
+      "Weekday",
+      "NYISO / Weekday",
+      "14.903007648183557",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "18",
+      "Weekday",
+      "NYISO / Weekday",
+      "20.07950479846449",
+      "521"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "8",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.170504780114722",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "22",
+      "Weekday",
+      "CAISO / Weekday",
+      "28.2367189292543",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "3",
+      "Weekend",
+      "ERCOT / Weekend",
+      "45.66932211538462",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "17",
+      "Weekday",
+      "ERCOT / Weekday",
+      "62.309822179732315",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "7",
+      "Weekend",
+      "NYISO / Weekend",
+      "15.36352403846154",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "14",
+      "Weekend",
+      "NYISO / Weekend",
+      "16.83949519230769",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "21",
+      "Weekend",
+      "NYISO / Weekend",
+      "18.09825",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "21",
+      "Weekday",
+      "NYISO / Weekday",
+      "18.775925430210325",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "8",
+      "Weekend",
+      "CAISO / Weekend",
+      "22.76189423076923",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "12",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.67670673076923",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "20",
+      "Weekend",
+      "CAISO / Weekend",
+      "27.65482211538462",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "0",
+      "Weekend",
+      "ERCOT / Weekend",
+      "49.530884615384615",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "2",
+      "Weekend",
+      "ERCOT / Weekend",
+      "46.54937378640777",
+      "206"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "2",
+      "Weekday",
+      "ERCOT / Weekday",
+      "46.67121414913958",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "9",
+      "Weekday",
+      "ERCOT / Weekday",
+      "53.72930783938814",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "19",
+      "Weekday",
+      "ERCOT / Weekday",
+      "60.510422562141486",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "23",
+      "Weekday",
+      "ERCOT / Weekday",
+      "52.07132122370937",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "4",
+      "Weekday",
+      "NYISO / Weekday",
+      "14.85072466539197",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "9",
+      "Weekend",
+      "CAISO / Weekend",
+      "24.01470192307692",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "22",
+      "Weekend",
+      "CAISO / Weekend",
+      "26.583076923076923",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "6",
+      "Weekday",
+      "CAISO / Weekday",
+      "22.99245889101338",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "6",
+      "Weekend",
+      "ERCOT / Weekend",
+      "45.938947115384615",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "13",
+      "Weekend",
+      "ERCOT / Weekend",
+      "57.70937980769231",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "4",
+      "Weekday",
+      "ERCOT / Weekday",
+      "46.355697896749525",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "16",
+      "Weekday",
+      "ERCOT / Weekday",
+      "62.123864244741874",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "8",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.823434034416827",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "12",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.845269598470363",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "6",
+      "Weekend",
+      "CAISO / Weekend",
+      "21.307408653846153",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "7",
+      "Weekday",
+      "CAISO / Weekday",
+      "24.559240917782027",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "19",
+      "Weekday",
+      "CAISO / Weekday",
+      "29.70970363288719",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "10",
+      "Weekend",
+      "ERCOT / Weekend",
+      "52.889596153846156",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "17",
+      "Weekend",
+      "ERCOT / Weekend",
+      "60.60378365384616",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "0",
+      "Weekday",
+      "ERCOT / Weekday",
+      "49.50648948374761",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "3",
+      "Weekday",
+      "ERCOT / Weekday",
+      "46.12579158699808",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "9",
+      "Weekend",
+      "NYISO / Weekend",
+      "15.834908653846155",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "19",
+      "Weekday",
+      "NYISO / Weekday",
+      "19.93576673040153",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "1",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.562495238095238",
+      "210"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "7",
+      "Weekend",
+      "CAISO / Weekend",
+      "21.774557692307692",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "17",
+      "Weekend",
+      "CAISO / Weekend",
+      "24.849134615384617",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "18",
+      "Weekday",
+      "CAISO / Weekday",
+      "29.101432122370937",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "20",
+      "Weekend",
+      "ERCOT / Weekend",
+      "57.692418269230764",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "21",
+      "Weekend",
+      "ERCOT / Weekend",
+      "56.29129326923076",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "10",
+      "Weekday",
+      "ERCOT / Weekday",
+      "55.23594263862332",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "12",
+      "Weekday",
+      "ERCOT / Weekday",
+      "58.23194455066921",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "22",
+      "Weekday",
+      "ERCOT / Weekday",
+      "54.933491395793496",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "20",
+      "Weekend",
+      "NYISO / Weekend",
+      "18.64348076923077",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "0",
+      "Weekday",
+      "NYISO / Weekday",
+      "15.839707456978967",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "17",
+      "Weekday",
+      "NYISO / Weekday",
+      "19.960435700575818",
+      "521"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "10",
+      "Weekend",
+      "CAISO / Weekend",
+      "24.253447115384617",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "18",
+      "Weekend",
+      "CAISO / Weekend",
+      "26.524629807692307",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "21",
+      "Weekend",
+      "CAISO / Weekend",
+      "27.28043269230769",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "23",
+      "Weekend",
+      "CAISO / Weekend",
+      "25.242485576923077",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "12",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.899543021032503",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "6",
+      "Weekday",
+      "ERCOT / Weekday",
+      "49.95751625239006",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "1",
+      "Weekend",
+      "NYISO / Weekend",
+      "15.154019047619048",
+      "210"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "3",
+      "Weekend",
+      "NYISO / Weekend",
+      "14.519802884615384",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "5",
+      "Weekend",
+      "NYISO / Weekend",
+      "14.602817307692309",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "19",
+      "Weekend",
+      "NYISO / Weekend",
+      "18.909528846153847",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "3",
+      "Weekday",
+      "NYISO / Weekday",
+      "14.72204397705545",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "0",
+      "Weekday",
+      "CAISO / Weekday",
+      "24.789390057361377",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "15",
+      "Weekend",
+      "ERCOT / Weekend",
+      "59.73629807692308",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "1",
+      "Weekday",
+      "ERCOT / Weekday",
+      "47.80021223709369",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "13",
+      "Weekend",
+      "NYISO / Weekend",
+      "16.573221153846152",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "16",
+      "Weekday",
+      "NYISO / Weekday",
+      "19.342172413793104",
+      "522"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "11",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.99856730769231",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "19",
+      "Weekend",
+      "CAISO / Weekend",
+      "27.494908653846153",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "14",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.52810325047801",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "14",
+      "Weekday",
+      "ERCOT / Weekday",
+      "60.78577820267686",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "18",
+      "Weekday",
+      "ERCOT / Weekday",
+      "61.79803250478012",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "15",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.218091346153848",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "16",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.67366826923077",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "2",
+      "Weekday",
+      "CAISO / Weekday",
+      "22.98563288718929",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "3",
+      "Weekday",
+      "CAISO / Weekday",
+      "22.36125430210325",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "4",
+      "Weekday",
+      "CAISO / Weekday",
+      "22.014049713193113",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "15",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.56845124282983",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "7",
+      "Weekend",
+      "ERCOT / Weekend",
+      "46.77670192307692",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "11",
+      "Weekend",
+      "NYISO / Weekend",
+      "16.180644230769232",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "18",
+      "Weekend",
+      "NYISO / Weekend",
+      "18.93718269230769",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "5",
+      "Weekday",
+      "NYISO / Weekday",
+      "15.493799235181644",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "10",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.705066921606118",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "23",
+      "Weekday",
+      "NYISO / Weekday",
+      "16.67461567877629",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "16",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.91091395793499",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "21",
+      "Weekday",
+      "CAISO / Weekday",
+      "29.099588910133843",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "23",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.639263862332697",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "5",
+      "Weekend",
+      "ERCOT / Weekend",
+      "45.40190384615384",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "12",
+      "Weekend",
+      "ERCOT / Weekend",
+      "56.32529326923076",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "13",
+      "Weekday",
+      "ERCOT / Weekday",
+      "59.71761759082218",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "21",
+      "Weekday",
+      "ERCOT / Weekday",
+      "57.562017208413",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "2",
+      "Weekend",
+      "NYISO / Weekend",
+      "14.768597087378641",
+      "206"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "22",
+      "Weekend",
+      "NYISO / Weekend",
+      "17.27218269230769",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "1",
+      "Weekday",
+      "NYISO / Weekday",
+      "15.278711281070747",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "2",
+      "Weekend",
+      "CAISO / Weekend",
+      "22.62992718446602",
+      "206"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "5",
+      "Weekend",
+      "CAISO / Weekend",
+      "21.09766826923077",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "1",
+      "Weekday",
+      "CAISO / Weekday",
+      "23.86845315487572",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "8",
+      "Weekday",
+      "ERCOT / Weekday",
+      "52.21346080305927",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "10",
+      "Weekend",
+      "NYISO / Weekend",
+      "15.9938125",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "17",
+      "Weekend",
+      "NYISO / Weekend",
+      "18.64466826923077",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "5",
+      "Weekday",
+      "CAISO / Weekday",
+      "22.078307839388145",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "9",
+      "Weekday",
+      "CAISO / Weekday",
+      "27.36940535372849",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "11",
+      "Weekday",
+      "CAISO / Weekday",
+      "27.204588910133843",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "13",
+      "Weekday",
+      "CAISO / Weekday",
+      "26.592500956022946",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "20",
+      "Weekday",
+      "CAISO / Weekday",
+      "29.643225621414913",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "8",
+      "Weekend",
+      "ERCOT / Weekend",
+      "48.748841346153846",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "16",
+      "Weekend",
+      "ERCOT / Weekend",
+      "60.36991346153846",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "19",
+      "Weekend",
+      "ERCOT / Weekend",
+      "58.93975961538462",
+      "208"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "5",
+      "Weekday",
+      "ERCOT / Weekday",
+      "47.7245621414914",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "11",
+      "Weekday",
+      "ERCOT / Weekday",
+      "56.729263862332694",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "20",
+      "Weekday",
+      "ERCOT / Weekday",
+      "59.2055086042065",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "12",
+      "Weekend",
+      "NYISO / Weekend",
+      "16.37816826923077",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "23",
+      "Weekend",
+      "NYISO / Weekend",
+      "16.38958653846154",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "7",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.589579349904398",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "9",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.756198852772467",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "11",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.74763479923518",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "14",
+      "Weekday",
+      "NYISO / Weekday",
+      "18.289860420650097",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "13",
+      "Weekend",
+      "CAISO / Weekend",
+      "23.366716346153847",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "17",
+      "Weekday",
+      "CAISO / Weekday",
+      "27.82751434034417",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "1",
+      "Weekend",
+      "ERCOT / Weekend",
+      "47.72363333333333",
+      "210"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "18",
+      "Weekend",
+      "ERCOT / Weekend",
+      "60.18729807692308",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "4",
+      "Weekend",
+      "NYISO / Weekend",
+      "14.454173076923077",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "6",
+      "Weekend",
+      "NYISO / Weekend",
+      "14.951052884615384",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "8",
+      "Weekend",
+      "NYISO / Weekend",
+      "15.6735625",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "15",
+      "Weekend",
+      "NYISO / Weekend",
+      "17.27737980769231",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "13",
+      "Weekday",
+      "NYISO / Weekday",
+      "18.054780114722753",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "22",
+      "Weekday",
+      "NYISO / Weekday",
+      "17.730355640535375",
+      "523"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "0",
+      "Weekend",
+      "CAISO / Weekend",
+      "24.534769230769232",
+      "208"
+    ],
+    [
+      "CISO",
+      "CAISO",
+      "10",
+      "Weekday",
+      "CAISO / Weekday",
+      "27.53546653919694",
+      "523"
+    ],
+    [
+      "ERCO",
+      "ERCOT",
+      "9",
+      "Weekend",
+      "ERCOT / Weekend",
+      "50.98232692307692",
+      "208"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "6",
+      "Weekday",
+      "NYISO / Weekday",
+      "16.684128107074567",
+      "523"
+    ],
+    [
+      "NYIS",
+      "NYISO",
+      "15",
+      "Weekday",
+      "NYISO / Weekday",
+      "18.708435946462718",
+      "523"
+    ]
+  ],
+  "row_count": 144,
+  "query": "SELECT region_code,region_name,hour_of_day,\n        CASE WHEN day_of_week IN (1,7) THEN 'Weekend' ELSE 'Weekday' END AS day_type,\n        concat(region_name,' / ',CASE WHEN day_of_week IN (1,7) THEN 'Weekend' ELSE 'Weekday' END) AS profile_series,\n        avg(demand_mwh)/1000 AS mean_hour_demand_gwh,count(demand_mwh) AS valid_hours\n        FROM v_gold_hourly WHERE local_date>='2024-01-01' AND local_date<'2026-01-01'\n        GROUP BY 1,2,3,4,5"
+}

@@ -1,0 +1,18 @@
+{
+  "columns": [
+    "rows",
+    "unique_keys",
+    "first_interval_start",
+    "last_interval_start"
+  ],
+  "rows": [
+    [
+      "52704",
+      "52704",
+      "2024-01-01T00:00:00.000Z",
+      "2026-01-01T23:00:00.000Z"
+    ]
+  ],
+  "row_count": 1,
+  "query": "SELECT count(*) AS rows,count(DISTINCT struct(region_code,hour_utc)) AS unique_keys,\n        min(hour_utc) AS first_interval_start,max(hour_utc) AS last_interval_start\n        FROM v_gold_hourly"
+}

@@ -1,0 +1,4 @@
+region_code,region_name,time_zone,expected_weather_points
+ERCO,ERCOT,America/Chicago,3
+CISO,CAISO,America/Los_Angeles,3
+NYIS,NYISO,America/New_York,3

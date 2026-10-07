@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "energy-demand-weather-lakehouse"
+version = "1.0.0"
+description = "Quality-aware electricity demand and generation analytics on Databricks"
+requires-python = ">=3.11"
+dependencies = []
+license = "MIT"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "build>=1,<2", "ruff>=0.14,<1"]
+databricks = ["databricks-sdk>=0.70,<1"]
+visuals = ["matplotlib>=3.9,<4"]
+
+[project.scripts]
+energy-ingest = "energy_platform.ingest:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+"notebooks/*.py" = ["F821", "E402"]
